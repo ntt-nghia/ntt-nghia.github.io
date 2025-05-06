@@ -1,0 +1,414 @@
+---
+---
+
+// Variables - Solarized Light
+$base03:    #002b36;
+$base02:    #073642;
+$base01:    #586e75;
+$base00:    #657b83;
+$base0:     #839496;
+$base1:     #93a1a1;
+$base2:     #eee8d5;
+$base3:     #fdf6e3;
+$yellow:    #b58900;
+$orange:    #cb4b16;
+$red:       #dc322f;
+$magenta:   #d33682;
+$violet:    #6c71c4;
+$blue:      #268bd2;
+$cyan:      #2aa198;
+$green:     #859900;
+
+// Theme colors
+$background-color: $base3;
+$text-color: $base01;
+$heading-color: $base02;
+$link-color: $blue;
+$link-hover-color: $cyan;
+$border-color: $base2;
+$code-background: $base2;
+$blockquote-border: $base1;
+$tag-background: $base2;
+$tag-hover-background: darken($base2, 5%);
+$header-background: $base3;
+$footer-background: $base3;
+
+// Base styles
+body {
+  font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
+  line-height: 1.5;
+  color: $text-color;
+  background-color: $background-color;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  color: $heading-color;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+h1 { font-size: 2.2em; }
+h2 { font-size: 1.8em; }
+h3 { font-size: 1.5em; }
+h4 { font-size: 1.3em; }
+h5 { font-size: 1.1em; }
+h6 { font-size: 1em; }
+
+a {
+  color: $link-color;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+}
+
+p, ul, ol {
+  margin-bottom: 1.5em;
+}
+
+blockquote {
+  border-left: 4px solid $blockquote-border;
+  padding-left: 1em;
+  margin-left: 0;
+  color: darken($text-color, 15%);
+  font-style: italic;
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  background-color: $code-background;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: $code-background;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+
+  code {
+    background-color: transparent;
+    padding: 0;
+  }
+}
+
+// Header
+.site-header {
+  padding: 1em 0;
+  margin-bottom: 3em;
+  background-color: $header-background;
+  font-size: 0.9em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+
+  .nav-link {
+    color: $base01;
+
+    &:hover {
+      color: $link-color;
+      text-decoration: none;
+    }
+  }
+
+  .nav-separator {
+    margin: 0 0.5em;
+    color: $base01;
+  }
+}
+
+// Footer
+.site-footer {
+  margin-top: 3em;
+  padding: 2em 0;
+  border-top: 1px solid $border-color;
+  background-color: $footer-background;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1em;
+  }
+}
+
+// Posts
+.post {
+  margin-bottom: 3em;
+}
+
+.page-title {
+  font-size: 1.8em;
+  margin-bottom: 1.5em;
+  font-weight: normal;
+}
+
+.post-list {
+  margin-bottom: 2em;
+}
+
+.post-item {
+  display: flex;
+  margin-bottom: 0.8em;
+  line-height: 1.4;
+}
+
+.post-date {
+  width: 100px;
+  color: $base01;
+  flex-shrink: 0;
+}
+
+.post-title-link {
+  a {
+    color: $base01;
+    text-decoration: none;
+
+    &:hover {
+      color: $link-color;
+      text-decoration: none;
+    }
+  }
+}
+
+// Individual post page styles
+.post-title {
+  margin-top: 0;
+  margin-bottom: 0.2em;
+
+  a {
+    color: $heading-color;
+
+    &:hover {
+      color: $link-color;
+      text-decoration: none;
+    }
+  }
+}
+
+.post-meta {
+  color: darken($text-color, 20%);
+  font-size: 0.9em;
+  margin-bottom: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.tag-pill {
+  background-color: $tag-background;
+  color: $text-color;
+  padding: 0.2em 0.6em;
+  border-radius: 20px;
+  font-size: 0.8em;
+
+  &:hover {
+    background-color: $tag-hover-background;
+    text-decoration: none;
+  }
+}
+
+.post-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid $border-color;
+}
+
+// Pagination
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+  margin: 2em 0;
+
+  .page-number, .previous, .next {
+    padding: 0.5em 0.8em;
+    border: 1px solid $border-color;
+    border-radius: 3px;
+
+    &.current {
+      background-color: $link-color;
+      color: $background-color;
+      border-color: $link-color;
+    }
+  }
+}
+
+// Tags page
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-bottom: 2em;
+}
+
+.tag-section {
+  margin-bottom: 2em;
+}
+
+.tag-name {
+  border-bottom: 1px solid $border-color;
+  padding-bottom: 0.3em;
+}
+
+// Images
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5em auto;
+  border-radius: 5px;
+}
+
+// Tables
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5em;
+
+  th, td {
+    padding: 0.5em;
+    border: 1px solid $border-color;
+  }
+
+  th {
+    background-color: darken($background-color, 3%);
+    text-align: left;
+  }
+
+  tr:nth-child(even) {
+    background-color: darken($background-color, 2%);
+  }
+}
+
+// Code blocks styling (basic container styling, syntax highlighting handled by highlight.js)
+pre {
+  background-color: $code-background;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin-bottom: 1.5em;
+  position: relative;
+
+  code {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  code.hljs {
+    background-color: $code-background;
+  }
+}
+
+// Mermaid diagram styling
+.mermaid {
+  background-color: $code-background;
+  padding: 1em;
+  border-radius: 5px;
+  margin-bottom: 1.5em;
+  text-align: center;
+
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+// Copy code button
+.copy-code-button {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  background-color: $base01;
+  color: $base3;
+  border: none;
+  border-radius: 3px;
+  padding: 0.3em 0.6em;
+  font-size: 0.8em;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    background-color: darken($base01, 10%);
+  }
+}
+
+pre:hover .copy-code-button {
+  opacity: 1;
+}
+
+// Responsive
+@media (max-width: 600px) {
+  .site-header {
+    padding: 0.8em 0;
+  }
+
+  .site-nav {
+    flex-wrap: wrap;
+    gap: 0.5em;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 1em;
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .post-item {
+    flex-direction: column;
+    margin-bottom: 1.5em;
+  }
+
+  .post-date {
+    width: auto;
+    margin-bottom: 0.3em;
+    opacity: 0.8;
+  }
+
+  h1 { font-size: 1.8em; }
+  h2 { font-size: 1.5em; }
+  h3 { font-size: 1.3em; }
+
+  .page-title {
+    font-size: 1.6em;
+    margin-bottom: 1.2em;
+  }
+}

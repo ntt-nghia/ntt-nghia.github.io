@@ -1,0 +1,36 @@
+---
+layout: default
+---
+<div class="tag-page">
+    <h1 class="tag-title">#{{ page.tag }}</h1>
+
+    <div class="tag-posts">
+        {% for post in site.posts %}
+            {% if post.tags contains page.tag %}
+            <article class="post-summary">
+                <h2 class="post-title">
+                    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h2>
+                <div class="post-meta">
+                    <time datetime="{{ post.date | date_to_xmlschema }}">
+                        {{ post.date | date: "%B %-d, %Y" }}
+                    </time>
+                </div>
+                <div class="post-excerpt">
+                    {{ post.excerpt | strip_html | truncatewords: 50 }}
+                </div>
+                <a href="{{ post.url | relative_url }}" class="read-more">Read more &raquo;</a>
+            </article>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="all-tags">
+        <h2>All Tags</h2>
+        <div class="tag-cloud">
+            <a href="{{ site.baseurl }}/tags/blogging/" class="tag-pill">blogging</a>
+            <a href="{{ site.baseurl }}/tags/introduction/" class="tag-pill">introduction</a>
+            <a href="{{ site.baseurl }}/tags/jekyll/" class="tag-pill">jekyll</a>
+        </div>
+    </div>
+</div>

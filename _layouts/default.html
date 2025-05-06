@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+    <meta property="og:type" content="{% if page.date %}article{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}">
+    {% if page.image %}
+    <meta property="og:image" content="{{ page.image | absolute_url }}">
+    {% endif %}
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style">
+
+    <!-- Highlight.js CSS - Combined into one request -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/solarized-light.min.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+
+    <!-- SEO tags -->
+    {% seo %}
+</head>
+<body>
+    <div class="container">
+        <header class="site-header" role="banner">
+            <nav class="site-nav" aria-label="Main navigation">
+                <a href="{{ '/' | relative_url }}" class="nav-link" aria-label="Home">@nghiantt</a>
+                <span class="nav-separator" aria-hidden="true">/</span>
+                <a href="{{ '/posts/' | relative_url }}" class="nav-link" aria-label="Posts">posts</a>
+                <span class="nav-separator" aria-hidden="true">/</span>
+                <a href="{{ '/tags/' | relative_url }}" class="nav-link" aria-label="Tags">tags</a>
+            </nav>
+        </header>
+
+        <main class="site-content" role="main" id="main-content">
+            {{ content }}
+        </main>
+
+        <footer class="site-footer" role="contentinfo">
+            <div class="footer-content">
+                <p class="copyright">© {{ site.time | date: '%Y' }} {{ site.title }}</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Highlight.js JavaScript - defer loading for performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
+    <!-- Additional languages - bundled together for fewer HTTP requests -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/kotlin.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js" defer></script>
+
+    <!-- Mermaid JavaScript - defer loading for performance -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+    <script>
+        /**
+         * Main initialization function that runs when the DOM is fully loaded
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeMermaid();
+            initializeCodeHighlighting();
+            addCopyCodeButtons();
+        });
+
+        /**
+         * Initialize and render Mermaid diagrams
+         */
+        function initializeMermaid() {
+            try {
+                // Configure Mermaid
+                mermaid.initialize({
+                    startOnLoad: false,
+                    theme: 'default',
+                    securityLevel: 'loose',
+                    flowchart: {
+                        useMaxWidth: false,
+                        htmlLabels: true
+                    }
+                });
+
+                // Convert code blocks to mermaid diagrams
+                document.querySelectorAll('code.language-mermaid').forEach((codeElement) => {
+                    const mermaidDiv = document.createElement('div');
+                    mermaidDiv.className = 'mermaid';
+                    mermaidDiv.textContent = codeElement.textContent;
+
+                    const preElement = codeElement.parentNode;
+                    if (preElement && preElement.tagName === 'PRE') {
+                        preElement.parentNode.replaceChild(mermaidDiv, preElement);
+                    }
+                });
+
+                // Render all mermaid diagrams
+                mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (error) {
+                console.error('Error initializing Mermaid:', error);
+            }
+        }
+
+        /**
+         * Apply syntax highlighting to code blocks
+         */
+        function initializeCodeHighlighting() {
+            try {
+                document.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => {
+                    hljs.highlightBlock(block);
+                });
+            } catch (error) {
+                console.error('Error applying syntax highlighting:', error);
+            }
+        }
+
+        /**
+         * Add copy buttons to code blocks
+         */
+        function addCopyCodeButtons() {
+            document.querySelectorAll('pre:not(.mermaid)').forEach((pre) => {
+                // Create button with accessibility attributes
+                const button = document.createElement('button');
+                button.className = 'copy-code-button';
+                button.textContent = 'Copy';
+                button.setAttribute('aria-label', 'Copy code to clipboard');
+
+                // Add button to pre element
+                pre.appendChild(button);
+
+                // Add click event
+                button.addEventListener('click', () => {
+                    const code = pre.querySelector('code');
+                    if (!code) return;
+
+                    const text = code.textContent;
+                    copyTextToClipboard(text, button);
+                });
+            });
+        }
+
+        /**
+         * Copy text to clipboard with fallback for older browsers
+         * @param {string} text - The text to copy
+         * @param {HTMLElement} button - The button element for visual feedback
+         */
+        function copyTextToClipboard(text, button) {
+            // Modern browsers - Clipboard API
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text)
+                    .then(() => updateButtonText(button, 'Copied!'))
+                    .catch(err => {
+                        console.error('Failed to copy using Clipboard API:', err);
+                        fallbackCopyMethod(text, button);
+                    });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyMethod(text, button);
+            }
+        }
+
+        /**
+         * Fallback copy method using document.execCommand
+         * @param {string} text - The text to copy
+         * @param {HTMLElement} button - The button element for visual feedback
+         */
+        function fallbackCopyMethod(text, button) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+
+            // Make the textarea invisible
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                updateButtonText(button, successful ? 'Copied!' : 'Error!');
+            } catch (err) {
+                console.error('Fallback copy method failed:', err);
+                updateButtonText(button, 'Error!');
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        /**
+         * Update button text with visual feedback and reset after delay
+         * @param {HTMLElement} button - The button to update
+         * @param {string} text - The text to display
+         * @param {number} delay - Delay in ms before resetting (default: 2000)
+         */
+        function updateButtonText(button, text, delay = 2000) {
+            button.textContent = text;
+            setTimeout(() => {
+                button.textContent = 'Copy';
+            }, delay);
+        }
+    </script>
+</body>
+</html>

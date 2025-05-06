@@ -1,0 +1,70 @@
+# Site settings
+title: Blog
+description: A personal blog about technology, programming, and other interests
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://dodooh.github.io" # the base hostname & protocol for your site
+
+# Author settings
+author:
+  name: Nghia Nguyen Tran Thanh
+  email: nghiantt.dng@gmail.com
+  bio: A developer, whose neck drilled, love summer, swimming and chicken rice.
+  github: dodooh
+  twitter: yourusername
+  linkedin: yourusername
+
+# Build settings
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+highlighter: rouge
+future: false
+show_drafts: false
+
+# Pagination
+paginate: 5
+paginate_path: "/page:num/"
+
+# Collections
+collections:
+  tags:
+    output: true
+    permalink: /tag/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "tags"
+    values:
+      layout: "tag"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .idea
+  - .gitignore
+  - README.md
+  - LICENSE
+  - .bundle
+  - docs
+  - github-blog.iml
+  - .junie
