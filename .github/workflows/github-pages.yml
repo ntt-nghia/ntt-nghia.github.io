@@ -1,30 +1,35 @@
-name: Build and deploy Jekyll site to GitHub Pages
+name: Deploy Jekyll Site
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
 
-# Add these permissions
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  github-pages:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Setup Ruby with bundler
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
-          bundler-cache: false
+          bundler-cache: true
 
-      # Update Gemfile to pin FFI version and then update bundle
-      - name: Update Gemfile and dependencies
+      - name: Update FFI Version
         run: |
           if ! grep -q "gem \"ffi\"" Gemfile; then
             echo 'gem "ffi", "1.16.3"' >> Gemfile
@@ -34,16 +39,17 @@ jobs:
           bundle update ffi
           bundle install
 
-      # Now use cache with the updated Gemfile.lock
-      - uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+      - name: Generate Tag Pages
+        run: ruby _scripts/tag-generator.rb
 
-      # Use your PAT instead of GITHUB_TOKEN
-      - uses: helaili/jekyll-action@v2
+      - name: Build Jekyll Site
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          token: ${{ secrets.PAT }}  # Use the PAT secret name you created
-          target_branch: 'gh-pages'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages
