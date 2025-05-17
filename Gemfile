@@ -11,4 +11,6 @@ source "https://rubygems.org"
 # gem "minima", "~> 2.5"
 
 # To upgrade, run `bundle update github-pages`.
+source "https://rubygems.org"
 gem "github-pages", group: :jekyll_plugins
+gem "ffi", "< 1.17.0"
