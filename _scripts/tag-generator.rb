@@ -23,8 +23,9 @@ post_files.each do |post_file|
     # Fix for Ruby 3.1+: Update the safe_load call
     front_matter = YAML.safe_load($1, permitted_classes: [Date, Time])
 
-    # Skip unpublished posts
-    next if front_matter.key?('isPublished') && front_matter['isPublished'] == false
+    # Skip unpublished posts (check both custom isPublished AND standard published flags)
+    next if (front_matter.key?('isPublished') && front_matter['isPublished'] == false) ||
+            (front_matter.key?('published') && front_matter['published'] == false)
 
     # Get tags from front matter
     if front_matter['tags']
