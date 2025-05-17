@@ -12,20 +12,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Add a step to force the correct FFI version before cache is used
+      # Setup Ruby with bundler
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
-          bundler-cache: true
+          bundler-cache: false # Don't use cache yet
 
-      # Force update ffi to a compatible version
-      - name: Force FFI version update
+      # Update Gemfile to pin FFI version and then update bundle
+      - name: Update Gemfile and dependencies
         run: |
-          rm -f Gemfile.lock
-          echo 'gem "ffi", "= 1.16.3"' >> Gemfile
+          if ! grep -q "gem \"ffi\"" Gemfile; then
+            echo 'gem "ffi", "1.16.3"' >> Gemfile
+          else
+            sed -i 's/gem "ffi".*$/gem "ffi", "1.16.3"/' Gemfile
+          fi
+          bundle update ffi
           bundle install
 
+      # Now use cache with the updated Gemfile.lock
       - uses: actions/cache@v3
         with:
           path: vendor/bundle
