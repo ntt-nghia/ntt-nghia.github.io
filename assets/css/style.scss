@@ -333,6 +333,26 @@ pre {
   }
 }
 
+pre code:not(.hljs) {
+  position: relative;
+}
+
+pre code:not(.hljs):after {
+  content: "Loading syntax highlighting...";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(238, 232, 213, 0.8); /* Using your $code-background with alpha */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  font-style: italic;
+  color: #586e75; /* Your $base01 */
+}
+
 // Mermaid diagram styling
 .mermaid {
   background-color: $code-background;

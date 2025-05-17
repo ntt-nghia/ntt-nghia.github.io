@@ -11,12 +11,15 @@ author:
   bio: A developer, whose neck drilled, love summer, swimming and chicken rice.
   github: dodooh
   twitter: yourusername
-  linkedin: yourusername
+  linkedin: nguyen2697s
 
 # Build settings
 markdown: kramdown
-permalink: /:year/:month/:day/:title/
 highlighter: rouge
+kramdown:
+  syntax_highlighter_opts:
+    disable: true  # Let highlight.js handle the highlighting
+permalink: /:year/:month/:day/:title/
 future: false
 show_drafts: false
 
@@ -37,6 +40,7 @@ defaults:
       type: "posts"
     values:
       layout: "post"
+      isPublished: true
   - scope:
       path: ""
       type: "tags"
@@ -46,7 +50,6 @@ defaults:
       path: ""
     values:
       layout: "default"
-
 # Plugins
 plugins:
   - jekyll-paginate

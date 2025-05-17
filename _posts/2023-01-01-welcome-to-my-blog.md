@@ -3,6 +3,7 @@ layout: post
 title: "Welcome to My Blog"
 date: 2025-04-12 12:00:00 +0700
 tags: [introduction, jekyll, blogging]
+isPublished: true
 ---
 
 This is my first blog post. I'm excited to share my thoughts, experiences, and knowledge with you through this platform.
@@ -59,7 +60,7 @@ console.log(greet("World"));
 
 You can also include images in your posts:
 
-![Sample Image](https://via.placeholder.com/800x400)
+![Sample Image](https://placehold.co/800x400)
 
 ## Blockquotes
 

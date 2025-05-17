@@ -22,6 +22,9 @@ post_files.each do |post_file|
   if content =~ /\A---\s*\n(.*?)\n---\s*\n/m
     front_matter = YAML.safe_load($1, [Date, Time])
 
+    # Skip unpublished posts
+    next if front_matter.key?('isPublished') && front_matter['isPublished'] == false
+
     # Get tags from front matter
     if front_matter['tags']
       tags = front_matter['tags']

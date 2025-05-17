@@ -3,6 +3,7 @@ layout: post
 title: "DynamoDB Sync Tool: A Comprehensive Guide"
 date: 2025-05-06 08:00:00 +0700
 tags: [aws, dynamodb, devops, shell-scripting]
+isPublished: true
 ---
 
 # DynamoDB Sync Tool: A Comprehensive Guide

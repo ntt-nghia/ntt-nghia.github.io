@@ -6,7 +6,7 @@ layout: default
 
     <div class="tag-posts">
         {% for post in site.posts %}
-            {% if post.tags contains page.tag %}
+            {% if post.tags contains page.tag and post.isPublished != false %}
             <article class="post-summary">
                 <h2 class="post-title">
                     <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
