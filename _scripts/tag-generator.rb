@@ -20,7 +20,8 @@ post_files.each do |post_file|
 
   # Extract YAML front matter
   if content =~ /\A---\s*\n(.*?)\n---\s*\n/m
-    front_matter = YAML.safe_load($1, [Date, Time])
+    # Fix for Ruby 3.1+: Update the safe_load call
+    front_matter = YAML.safe_load($1, permitted_classes: [Date, Time])
 
     # Skip unpublished posts
     next if front_matter.key?('isPublished') && front_matter['isPublished'] == false
