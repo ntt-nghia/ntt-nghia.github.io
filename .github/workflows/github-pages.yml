@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+# Add these permissions
+permissions:
+  contents: write
+
 jobs:
   github-pages:
     runs-on: ubuntu-latest
@@ -17,7 +21,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
-          bundler-cache: false # Don't use cache yet
+          bundler-cache: false
 
       # Update Gemfile to pin FFI version and then update bundle
       - name: Update Gemfile and dependencies
@@ -38,7 +42,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
+      # Use your PAT instead of GITHUB_TOKEN
       - uses: helaili/jekyll-action@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}  # Use the PAT secret name you created
           target_branch: 'gh-pages'
