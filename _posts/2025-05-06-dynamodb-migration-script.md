@@ -102,5 +102,5 @@ The tool automatically handles pagination, processes items in batches, and provi
 
 ## Download
 
-- Save the script as [dynamodb-sync.sh](https://github.com/dodooh/dodooh.github.io/blob/master/resources/dynamodb-sync.sh),
+- Save the script as [dynamodb-sync.sh](https://github.com/ntt-nghia/ntt-nghia.github.io/blob/master/resources/dynamodb-sync.sh),
 - Make it executable with `chmod +x dynamodb-sync.sh`, and you're ready to go!
