@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DynamoDB Sync Tool: A Comprehensive Guide | Blog</title>
+    <meta name="description" content="This guide explains how to use the DynamoDB Sync Tool to migrate data between AWS DynamoDB and local environments.">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="DynamoDB Sync Tool: A Comprehensive Guide">
+    <meta property="og:description" content="This guide explains how to use the DynamoDB Sync Tool to migrate data between AWS DynamoDB and local environments.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://dodooh.github.io/2025/05/06/dynamodb-migration-script/">
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/assets/css/style.css" as="style">
+
+    <!-- Highlight.js CSS - Combined into one request -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+    <!-- SEO tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DynamoDB Sync Tool: A Comprehensive Guide | Blog</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="DynamoDB Sync Tool: A Comprehensive Guide" />
+<meta name="author" content="Nghia Nguyen Tran Thanh" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This guide explains how to use the DynamoDB Sync Tool to migrate data between AWS DynamoDB and local environments." />
+<meta property="og:description" content="This guide explains how to use the DynamoDB Sync Tool to migrate data between AWS DynamoDB and local environments." />
+<link rel="canonical" href="https://dodooh.github.io/2025/05/06/dynamodb-migration-script/" />
+<meta property="og:url" content="https://dodooh.github.io/2025/05/06/dynamodb-migration-script/" />
+<meta property="og:site_name" content="Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-05-06T01:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="DynamoDB Sync Tool: A Comprehensive Guide" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Nghia Nguyen Tran Thanh"},"dateModified":"2025-05-06T01:00:00+00:00","datePublished":"2025-05-06T01:00:00+00:00","description":"This guide explains how to use the DynamoDB Sync Tool to migrate data between AWS DynamoDB and local environments.","headline":"DynamoDB Sync Tool: A Comprehensive Guide","mainEntityOfPage":{"@type":"WebPage","@id":"https://dodooh.github.io/2025/05/06/dynamodb-migration-script/"},"url":"https://dodooh.github.io/2025/05/06/dynamodb-migration-script/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<div class="container">
+    <header class="site-header" role="banner">
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link" aria-label="Home">@nghiantt</a>
+            <span class="nav-separator" aria-hidden="true">/</span>
+            <a href="/posts/" class="nav-link" aria-label="Posts">posts</a>
+            <span class="nav-separator" aria-hidden="true">/</span>
+            <a href="/tags/" class="nav-link" aria-label="Tags">tags</a>
+        </nav>
+    </header>
+
+    <main class="site-content" role="main" id="main-content">
+        <article class="post">
+    <header class="post-header">
+        <h1 class="post-title">DynamoDB Sync Tool: A Comprehensive Guide</h1>
+        <div class="post-meta">
+            <time datetime="2025-05-06T01:00:00+00:00">
+                May 6, 2025
+            </time>
+            
+            <span class="post-tags">
+                
+                <a href="/tag/aws/" class="tag-pill">aws</a>
+                
+                <a href="/tag/dynamodb/" class="tag-pill">dynamodb</a>
+                
+                <a href="/tag/devops/" class="tag-pill">devops</a>
+                
+                <a href="/tag/shell-scripting/" class="tag-pill">shell-scripting</a>
+                
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+        <p>This guide explains how to use the DynamoDB Sync Tool to migrate data between AWS DynamoDB and local environments.</p>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<pre><code class="language-bash">./dynamodb-sync.sh -h
+</code></pre>
+
+<p>Explore the arguments and usages</p>
+
+<pre><code class="language-bash">./dynamodb-sync.sh --table users --pk user123
+</code></pre>
+
+<p>This command fetches items with partition key “user123” from the “users” table and imports them to your local DynamoDB
+instance.</p>
+
+<h2 id="core-parameters">Core Parameters</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--table, -t</code></td>
+      <td>Source DynamoDB table name</td>
+      <td>source_table</td>
+    </tr>
+    <tr>
+      <td><code>--pk</code></td>
+      <td>Partition key value (required for queries)</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code>--operation, -o</code></td>
+      <td>Operation type: query or scan</td>
+      <td>query</td>
+    </tr>
+    <tr>
+      <td><code>--region, -r</code></td>
+      <td>AWS region</td>
+      <td>ap-southeast-1</td>
+    </tr>
+    <tr>
+      <td><code>--local-url, -l</code></td>
+      <td>Local DynamoDB URL</td>
+      <td>http://localhost:4569</td>
+    </tr>
+    <tr>
+      <td><code>--local-table, -lt</code></td>
+      <td>Local table name</td>
+      <td>local_table</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="advanced-query-options">Advanced Query Options</h2>
+
+<pre><code class="language-bash">./dynamodb-sync.sh \
+  --table users \
+  --pk user123 \
+  --filter "age &gt; :age" \
+  --attributes '{":age":{"N":"18"}}' \
+  --index email-index \
+  --projection "id, name, email"
+</code></pre>
+
+<p>This queries users with partition key “user123”, filters for age &gt; 18, uses the email-index, and selects only specified
+attributes.</p>
+
+<h2 id="table-scanning">Table Scanning</h2>
+
+<p>For operations without a specific key:</p>
+
+<pre><code class="language-bash">./dynamodb-sync.sh \
+  --table users \
+  --operation scan \
+  --filter "status = :status" \
+  --attributes '{":status":{"S":"active"}}' \
+  --max-items 500
+</code></pre>
+
+<h2 id="export-or-import-only">Export or Import Only</h2>
+
+<p>Export data without importing:</p>
+
+<pre><code class="language-bash">./dynamodb-sync.sh --table users --pk user123 --export-only
+</code></pre>
+
+<p>Import previously exported files:</p>
+
+<pre><code class="language-bash">./dynamodb-sync.sh --table users --context-id 20250506120000 --import-only
+</code></pre>
+
+<h2 id="batch-processing">Batch Processing</h2>
+
+<p>Control batch size for large datasets:</p>
+
+<pre><code class="language-bash">./dynamodb-sync.sh --table users --operation scan --max-items 2000
+</code></pre>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li>AWS CLI installed and configured</li>
+  <li>jq installed for JSON processing</li>
+  <li>Running local DynamoDB instance</li>
+  <li>Appropriate IAM permissions</li>
+</ul>
+
+<h2 id="common-use-cases">Common Use Cases</h2>
+
+<ol>
+  <li><strong>Development</strong>: Import real data for testing</li>
+  <li><strong>Debugging</strong>: Reproduce issues with specific data patterns</li>
+  <li><strong>Backups</strong>: Schedule exports via cron jobs</li>
+  <li><strong>Analysis</strong>: Export filtered data subsets</li>
+</ol>
+
+<p>The tool automatically handles pagination, processes items in batches, and provides progress feedback during operation.</p>
+
+<h2 id="download">Download</h2>
+
+<ul>
+  <li>Save the script as <a href="https://github.com/ntt-nghia/ntt-nghia.github.io/blob/master/resources/dynamodb-sync.sh">dynamodb-sync.sh</a>,</li>
+  <li>Make it executable with <code>chmod +x dynamodb-sync.sh</code>, and you’re ready to go!</li>
+</ul>
+
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-navigation">
+            
+            <a class="prev" href="/2025/04/12/welcome-to-my-blog/">&laquo; Welcome to My Blog</a>
+            
+            
+            <a class="next" href="/2025/05/11/react-redux-part1-setup/">React-Redux: #1 Setup &raquo;</a>
+            
+        </div>
+    </footer>
+</article>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="copyright">© 2025 Blog</p>
+        </div>
+    </footer>
+</div>
+
+<!-- Highlight.js JavaScript - defer loading for performance -->
+<!-- Additional languages - bundled together for fewer HTTP requests -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/kotlin.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/bash.min.js" ></script>
+
+<!-- Mermaid JavaScript - defer loading for performance -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" ></script>
+<script>
+  /**
+   * Main initialization function that runs when the DOM is fully loaded
+   */
+
+  function checkHighlightJsLoaded(callback, maxAttempts = 10, interval = 200) {
+    let attempts = 0;
+
+    const check = () => {
+      if (typeof hljs !== 'undefined') {
+        callback();
+        return;
+      }
+
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(check, interval);
+      } else {
+        console.error('Highlight.js failed to load after multiple attempts');
+      }
+    };
+
+    check();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      checkHighlightJsLoaded(() => {
+        initializeCodeHighlighting();
+        addCopyCodeButtons();
+      })
+    }, 100);
+
+    // Mermaid can be initialized separately
+    initializeMermaid();
+  });
+
+  /**
+   * Initialize and render Mermaid diagrams
+   */
+  function initializeMermaid() {
+    try {
+      // Configure Mermaid
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'loose',
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true
+        }
+      });
+
+      // Convert code blocks to mermaid diagrams
+      document.querySelectorAll('code.language-mermaid').forEach((codeElement) => {
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = codeElement.textContent;
+
+        const preElement = codeElement.parentNode;
+        if (preElement && preElement.tagName === 'PRE') {
+          preElement.parentNode.replaceChild(mermaidDiv, preElement);
+        }
+      });
+
+      // Render all mermaid diagrams
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+    } catch (error) {
+      console.error('Error initializing Mermaid:', error);
+    }
+  }
+
+  /**
+   * Apply syntax highlighting to code blocks
+   */
+  function initializeCodeHighlighting() {
+    try {
+      document.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    } catch (error) {
+      console.error('Error applying syntax highlighting:', error);
+    }
+  }
+
+  /**
+   * Add copy buttons to code blocks
+   */
+  function addCopyCodeButtons() {
+    document.querySelectorAll('pre:not(.mermaid)').forEach((pre) => {
+      // Create button with accessibility attributes
+      const button = document.createElement('button');
+      button.className = 'copy-code-button';
+      button.textContent = 'Copy';
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+
+      // Add button to pre element
+      pre.appendChild(button);
+
+      // Add click event
+      button.addEventListener('click', () => {
+        const code = pre.querySelector('code');
+        if (!code) return;
+
+        const text = code.textContent;
+        copyTextToClipboard(text, button);
+      });
+    });
+  }
+
+  /**
+   * Copy text to clipboard with fallback for older browsers
+   * @param {string} text - The text to copy
+   * @param {HTMLElement} button - The button element for visual feedback
+   */
+  function copyTextToClipboard(text, button) {
+    // Modern browsers - Clipboard API
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text)
+        .then(() => updateButtonText(button, 'Copied!'))
+        .catch(err => {
+          console.error('Failed to copy using Clipboard API:', err);
+          fallbackCopyMethod(text, button);
+        });
+    } else {
+      // Fallback for older browsers
+      fallbackCopyMethod(text, button);
+    }
+  }
+
+  /**
+   * Fallback copy method using document.execCommand
+   * @param {string} text - The text to copy
+   * @param {HTMLElement} button - The button element for visual feedback
+   */
+  function fallbackCopyMethod(text, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+
+    // Make the textarea invisible
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      updateButtonText(button, successful ? 'Copied!' : 'Error!');
+    } catch (err) {
+      console.error('Fallback copy method failed:', err);
+      updateButtonText(button, 'Error!');
+    }
+
+    document.body.removeChild(textArea);
+  }
+
+  /**
+   * Update button text with visual feedback and reset after delay
+   * @param {HTMLElement} button - The button to update
+   * @param {string} text - The text to display
+   * @param {number} delay - Delay in ms before resetting (default: 2000)
+   */
+  function updateButtonText(button, text, delay = 2000) {
+    button.textContent = text;
+    setTimeout(() => {
+      button.textContent = 'Copy';
+    }, delay);
+  }
+</script>
+</body>
+</html>

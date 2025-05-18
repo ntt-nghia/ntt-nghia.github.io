@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>React-Redux: #2 Cart | Blog</title>
+    <meta name="description" content="Module 2: State Management Basics - Final Version">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="React-Redux: #2 Cart">
+    <meta property="og:description" content="Module 2: State Management Basics - Final Version">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://dodooh.github.io/2025/05/11/react-redux-part2-cart/">
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/assets/css/style.css" as="style">
+
+    <!-- Highlight.js CSS - Combined into one request -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+    <!-- SEO tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>React-Redux: #2 Cart | Blog</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="React-Redux: #2 Cart" />
+<meta name="author" content="Nghia Nguyen Tran Thanh" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Module 2: State Management Basics - Final Version" />
+<meta property="og:description" content="Module 2: State Management Basics - Final Version" />
+<link rel="canonical" href="https://dodooh.github.io/2025/05/11/react-redux-part2-cart/" />
+<meta property="og:url" content="https://dodooh.github.io/2025/05/11/react-redux-part2-cart/" />
+<meta property="og:site_name" content="Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-05-11T01:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="React-Redux: #2 Cart" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Nghia Nguyen Tran Thanh"},"dateModified":"2025-05-11T01:00:00+00:00","datePublished":"2025-05-11T01:00:00+00:00","description":"Module 2: State Management Basics - Final Version","headline":"React-Redux: #2 Cart","mainEntityOfPage":{"@type":"WebPage","@id":"https://dodooh.github.io/2025/05/11/react-redux-part2-cart/"},"url":"https://dodooh.github.io/2025/05/11/react-redux-part2-cart/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<div class="container">
+    <header class="site-header" role="banner">
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link" aria-label="Home">@nghiantt</a>
+            <span class="nav-separator" aria-hidden="true">/</span>
+            <a href="/posts/" class="nav-link" aria-label="Posts">posts</a>
+            <span class="nav-separator" aria-hidden="true">/</span>
+            <a href="/tags/" class="nav-link" aria-label="Tags">tags</a>
+        </nav>
+    </header>
+
+    <main class="site-content" role="main" id="main-content">
+        <article class="post">
+    <header class="post-header">
+        <h1 class="post-title">React-Redux: #2 Cart</h1>
+        <div class="post-meta">
+            <time datetime="2025-05-11T01:00:00+00:00">
+                May 11, 2025
+            </time>
+            
+            <span class="post-tags">
+                
+                <a href="/tag/react/" class="tag-pill">react</a>
+                
+                <a href="/tag/redux/" class="tag-pill">redux</a>
+                
+                <a href="/tag/frontend/" class="tag-pill">frontend</a>
+                
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+        <h2 id="module-2-state-management-basics---final-version">Module 2: State Management Basics - Final Version</h2>
+
+<h3 id="learning-objectives">Learning Objectives</h3>
+
+<p>By the end of this module, you’ll understand:</p>
+<ul>
+  <li>How to implement CRUD operations in Redux</li>
+  <li>The distinction between component-level and application-level state</li>
+  <li>Proper patterns for managing shopping cart state</li>
+  <li>Action creator patterns and naming conventions</li>
+  <li>Reducer composition techniques</li>
+  <li>How to use Redux DevTools effectively</li>
+  <li>Integration of React Router with Redux</li>
+</ul>
+
+<h3 id="feature-requirements">Feature Requirements</h3>
+
+<p>We’ll build these features on top of our existing product grid:</p>
+<ol>
+  <li>Shopping cart with add/remove functionality</li>
+  <li>Cart item quantity management (increment/decrement)</li>
+  <li>Real-time cart total calculation</li>
+  <li>Cart summary in the header</li>
+  <li>Dedicated cart page with full cart management</li>
+  <li>Navigation between pages using React Router</li>
+</ol>
+
+<h3 id="implementation-steps">Implementation Steps</h3>
+
+<h4 id="step-1-install-required-dependencies">Step 1: Install Required Dependencies</h4>
+
+<pre><code class="language-bash">npm install react-router-dom @heroicons/react
+</code></pre>
+
+<h4 id="step-2-cart-actions-and-action-types">Step 2: Cart Actions and Action Types</h4>
+
+<p>Create <code>src/store/actions/cartActions.js</code>:</p>
+
+<pre><code class="language-javascript">export const cartActionTypes = {
+  ADD_TO_CART: 'ADD_TO_CART',
+  REMOVE_FROM_CART: 'REMOVE_FROM_CART',
+  UPDATE_QUANTITY: 'UPDATE_QUANTITY',
+  CLEAR_CART: 'CLEAR_CART',
+};
+
+export const addToCart = (product) =&gt; ({
+  type: cartActionTypes.ADD_TO_CART,
+  payload: product,
+});
+
+export const removeFromCart = (productId) =&gt; ({
+  type: cartActionTypes.REMOVE_FROM_CART,
+  payload: productId,
+});
+
+export const updateQuantity = (productId, quantity) =&gt; ({
+  type: cartActionTypes.UPDATE_QUANTITY,
+  payload: { productId, quantity },
+});
+
+export const clearCart = () =&gt; ({
+  type: cartActionTypes.CLEAR_CART,
+});
+</code></pre>
+
+<h4 id="step-3-cart-reducer">Step 3: Cart Reducer</h4>
+
+<p>Create <code>src/store/reducers/cartReducer.js</code>:</p>
+
+<pre><code class="language-javascript">import { cartActionTypes } from '../actions/cartActions';
+
+const initialState = {
+  items: [],
+  total: 0,
+};
+
+const calculateTotal = (items) =&gt; {
+  return items.reduce((total, item) =&gt; total + item.price * item.quantity, 0);
+};
+
+const cartReducer = (state = initialState, action) =&gt; {
+  switch (action.type) {
+    case cartActionTypes.ADD_TO_CART: {
+      const existingItemIndex = state.items.findIndex(
+        (item) =&gt; item.id === action.payload.id
+      );
+
+      let updatedItems;
+      if (existingItemIndex &gt;= 0) {
+        updatedItems = state.items.map((item, index) =&gt;
+          index === existingItemIndex
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        updatedItems = [...state.items, { ...action.payload, quantity: 1 }];
+      }
+
+      return {
+        ...state,
+        items: updatedItems,
+        total: calculateTotal(updatedItems),
+      };
+    }
+
+    case cartActionTypes.REMOVE_FROM_CART: {
+      const filteredItems = state.items.filter(
+        (item) =&gt; item.id !== action.payload
+      );
+      return {
+        ...state,
+        items: filteredItems,
+        total: calculateTotal(filteredItems),
+      };
+    }
+
+    case cartActionTypes.UPDATE_QUANTITY: {
+      const { productId, quantity } = action.payload;
+      
+      if (quantity === 0) {
+        const filteredItems = state.items.filter(
+          (item) =&gt; item.id !== productId
+        );
+        return {
+          ...state,
+          items: filteredItems,
+          total: calculateTotal(filteredItems),
+        };
+      }
+
+      const updatedItems = state.items.map((item) =&gt;
+        item.id === productId ? { ...item, quantity } : item
+      );
+
+      return {
+        ...state,
+        items: updatedItems,
+        total: calculateTotal(updatedItems),
+      };
+    }
+
+    case cartActionTypes.CLEAR_CART:
+      return initialState;
+
+    default:
+      return state;
+  }
+};
+
+export default cartReducer;
+</code></pre>
+
+<h4 id="step-4-update-root-reducer">Step 4: Update Root Reducer</h4>
+
+<p>Update <code>src/store/reducers/index.js</code>:</p>
+
+<pre><code class="language-javascript">import { combineReducers } from 'redux';
+import productReducer from './productReducer';
+import cartReducer from './cartReducer';
+
+const rootReducer = combineReducers({
+  products: productReducer,
+  cart: cartReducer,
+});
+
+export default rootReducer;
+</code></pre>
+
+<h4 id="step-5-update-appjs-with-react-router">Step 5: Update App.js with React Router</h4>
+
+<p>Update <code>src/App.js</code>:</p>
+
+<pre><code class="language-javascript">import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import store from './store';
+import Layout from './components/layout/Layout';
+import Home from './pages/Home';
+import Cart from './pages/Cart';
+
+function App() {
+  return (
+    &lt;Provider store={store}&gt;
+      &lt;Router&gt;
+        &lt;Layout&gt;
+          &lt;Routes&gt;
+            &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+            &lt;Route path="/cart" element={&lt;Cart /&gt;} /&gt;
+          &lt;/Routes&gt;
+        &lt;/Layout&gt;
+      &lt;/Router&gt;
+    &lt;/Provider&gt;
+  );
+}
+
+export default App;
+</code></pre>
+
+<h4 id="step-6-update-productcard-with-cart-functionality">Step 6: Update ProductCard with Cart Functionality</h4>
+
+<p>Update <code>src/components/features/ProductCard.js</code>:</p>
+
+<pre><code class="language-javascript">import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/actions/cartActions';
+
+const ProductCard = ({ product }) =&gt; {
+  const dispatch = useDispatch();
+  
+  const handleAddToCart = () =&gt; {
+    dispatch(addToCart(product));
+  };
+  
+  return (
+    &lt;div className="bg-white rounded-lg shadow-md overflow-hidden"&gt;
+      &lt;div className="aspect-w-1 aspect-h-1"&gt;
+        &lt;img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover"
+        /&gt;
+      &lt;/div&gt;
+      &lt;div className="p-4"&gt;
+        &lt;h3 className="text-lg font-semibold text-gray-900"&gt;{product.name}&lt;/h3&gt;
+        &lt;p className="text-sm text-gray-500 mt-1"&gt;{product.category}&lt;/p&gt;
+        &lt;p className="text-gray-600 mt-2 line-clamp-2"&gt;{product.description}&lt;/p&gt;
+        &lt;div className="mt-4 flex items-center justify-between"&gt;
+          &lt;span className="text-xl font-bold text-primary-600"&gt;
+            ${product.price}
+          &lt;/span&gt;
+          &lt;button 
+            onClick={handleAddToCart}
+            className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 transition-colors"
+          &gt;
+            Add to Cart
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default ProductCard;
+</code></pre>
+
+<h4 id="step-7-create-cartsummary-component">Step 7: Create CartSummary Component</h4>
+
+<p>Create <code>src/components/features/cart/CartSummary.js</code>:</p>
+
+<pre><code class="language-javascript">import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+
+const CartSummary = () =&gt; {
+  const { items, total } = useSelector(state =&gt; state.cart);
+  const itemCount = items.reduce((sum, item) =&gt; sum + item.quantity, 0);
+
+  return (
+    &lt;div className="relative"&gt;
+      &lt;Link 
+        to="/cart" 
+        className="flex items-center text-gray-600 hover:text-primary-600"
+      &gt;
+        &lt;ShoppingCartIcon className="h-6 w-6" /&gt;
+        &lt;span className="ml-2"&gt;${total.toFixed(2)}&lt;/span&gt;
+        {itemCount &gt; 0 &amp;&amp; (
+          &lt;span className="absolute -top-2 -right-2 bg-primary-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs"&gt;
+            {itemCount}
+          &lt;/span&gt;
+        )}
+      &lt;/Link&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default CartSummary;
+</code></pre>
+
+<h4 id="step-8-update-header-with-react-router">Step 8: Update Header with React Router</h4>
+
+<p>Update <code>src/components/layout/Header.js</code>:</p>
+
+<pre><code class="language-javascript">import { Link } from 'react-router-dom';
+import CartSummary from '../features/cart/CartSummary';
+
+const Header = () =&gt; (
+  &lt;header className="bg-white shadow-sm"&gt;
+    &lt;div className="container mx-auto px-4 py-4"&gt;
+      &lt;div className="flex items-center justify-between"&gt;
+        &lt;Link to="/" className="text-2xl font-bold text-primary-600"&gt;
+          ShopHub
+        &lt;/Link&gt;
+        &lt;nav className="flex items-center space-x-6"&gt;
+          &lt;ul className="flex space-x-6"&gt;
+            &lt;li&gt;
+              &lt;Link to="/" className="text-gray-600 hover:text-primary-600"&gt;
+                Home
+              &lt;/Link&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;Link to="/products" className="text-gray-600 hover:text-primary-600"&gt;
+                Products
+              &lt;/Link&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;CartSummary /&gt;
+        &lt;/nav&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+);
+
+export default Header;
+</code></pre>
+
+<h4 id="step-9-create-cartitem-component">Step 9: Create CartItem Component</h4>
+
+<p>Create <code>src/components/features/cart/CartItem.js</code>:</p>
+
+<pre><code class="language-javascript">import { useDispatch } from 'react-redux';
+import { removeFromCart, updateQuantity } from '../../../store/actions/cartActions';
+import { MinusIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+
+const CartItem = ({ item }) =&gt; {
+  const dispatch = useDispatch();
+
+  const handleQuantityChange = (newQuantity) =&gt; {
+    if (newQuantity &gt;= 0) {
+      dispatch(updateQuantity(item.id, newQuantity));
+    }
+  };
+
+  const handleRemove = () =&gt; {
+    dispatch(removeFromCart(item.id));
+  };
+
+  return (
+    &lt;div className="flex items-center p-4 bg-white rounded-lg shadow-sm"&gt;
+      &lt;img
+        src={item.image}
+        alt={item.name}
+        className="w-20 h-20 object-cover rounded-md"
+      /&gt;
+      &lt;div className="ml-4 flex-1"&gt;
+        &lt;h3 className="text-lg font-semibold text-gray-900"&gt;{item.name}&lt;/h3&gt;
+        &lt;p className="text-gray-600"&gt;${item.price}&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div className="flex items-center space-x-4"&gt;
+        &lt;div className="flex items-center border rounded-md"&gt;
+          &lt;button
+            onClick={() =&gt; handleQuantityChange(item.quantity - 1)}
+            className="p-2 hover:bg-gray-100"
+          &gt;
+            &lt;MinusIcon className="h-4 w-4" /&gt;
+          &lt;/button&gt;
+          &lt;span className="px-4 py-2"&gt;{item.quantity}&lt;/span&gt;
+          &lt;button
+            onClick={() =&gt; handleQuantityChange(item.quantity + 1)}
+            className="p-2 hover:bg-gray-100"
+          &gt;
+            &lt;PlusIcon className="h-4 w-4" /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div className="text-lg font-semibold text-gray-900"&gt;
+          ${(item.price * item.quantity).toFixed(2)}
+        &lt;/div&gt;
+        &lt;button
+          onClick={handleRemove}
+          className="p-2 text-red-600 hover:bg-red-50 rounded"
+        &gt;
+          &lt;TrashIcon className="h-5 w-5" /&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default CartItem;
+</code></pre>
+
+<h4 id="step-10-create-cart-page">Step 10: Create Cart Page</h4>
+
+<p>Create <code>src/pages/Cart.js</code>:</p>
+
+<pre><code class="language-javascript">import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import CartItem from '../components/features/cart/CartItem';
+import { clearCart } from '../store/actions/cartActions';
+
+const Cart = () =&gt; {
+  const dispatch = useDispatch();
+  const { items, total } = useSelector(state =&gt; state.cart);
+
+  const handleClearCart = () =&gt; {
+    dispatch(clearCart());
+  };
+
+  if (items.length === 0) {
+    return (
+      &lt;div className="text-center py-12"&gt;
+        &lt;h2 className="text-2xl font-semibold text-gray-900 mb-4"&gt;
+          Your Cart is Empty
+        &lt;/h2&gt;
+        &lt;p className="text-gray-600 mb-8"&gt;
+          Add some products to your cart to see them here.
+        &lt;/p&gt;
+        &lt;Link 
+          to="/" 
+          className="inline-block bg-primary-600 text-white px-6 py-3 rounded-md hover:bg-primary-700"
+        &gt;
+          Continue Shopping
+        &lt;/Link&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;div className="flex justify-between items-center mb-8"&gt;
+        &lt;h2 className="text-3xl font-bold text-gray-900"&gt;Shopping Cart&lt;/h2&gt;
+        &lt;button
+          onClick={handleClearCart}
+          className="text-red-600 hover:text-red-700"
+        &gt;
+          Clear Cart
+        &lt;/button&gt;
+      &lt;/div&gt;
+      
+      &lt;div className="space-y-4 mb-8"&gt;
+        {items.map(item =&gt; (
+          &lt;CartItem key={item.id} item={item} /&gt;
+        ))}
+      &lt;/div&gt;
+      
+      &lt;div className="bg-white p-6 rounded-lg shadow-sm"&gt;
+        &lt;div className="flex justify-between items-center text-xl font-semibold"&gt;
+          &lt;span&gt;Total:&lt;/span&gt;
+          &lt;span&gt;${total.toFixed(2)}&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;button className="w-full mt-4 bg-primary-600 text-white py-3 rounded-md hover:bg-primary-700"&gt;
+          Proceed to Checkout
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Cart;
+</code></pre>
+
+<h3 id="testing-requirements">Testing Requirements</h3>
+
+<p>Create <code>src/store/reducers/cartReducer.test.js</code>:</p>
+
+<pre><code class="language-javascript">import cartReducer from './cartReducer';
+import { cartActionTypes } from '../actions/cartActions';
+
+describe('cartReducer', () =&gt; {
+  const initialState = {
+    items: [],
+    total: 0,
+  };
+
+  it('should return initial state', () =&gt; {
+    expect(cartReducer(undefined, {})).toEqual(initialState);
+  });
+
+  it('should handle ADD_TO_CART for new item', () =&gt; {
+    const product = { id: 1, name: 'Test Product', price: 10 };
+    const action = {
+      type: cartActionTypes.ADD_TO_CART,
+      payload: product,
+    };
+    
+    const newState = cartReducer(initialState, action);
+    expect(newState.items).toHaveLength(1);
+    expect(newState.items[0]).toEqual({ ...product, quantity: 1 });
+    expect(newState.total).toBe(10);
+  });
+
+  it('should handle ADD_TO_CART for existing item', () =&gt; {
+    const state = {
+      items: [{ id: 1, name: 'Test Product', price: 10, quantity: 1 }],
+      total: 10,
+    };
+    const action = {
+      type: cartActionTypes.ADD_TO_CART,
+      payload: { id: 1, name: 'Test Product', price: 10 },
+    };
+    
+    const newState = cartReducer(state, action);
+    expect(newState.items[0].quantity).toBe(2);
+    expect(newState.total).toBe(20);
+  });
+
+  it('should handle REMOVE_FROM_CART', () =&gt; {
+    const state = {
+      items: [{ id: 1, name: 'Test Product', price: 10, quantity: 1 }],
+      total: 10,
+    };
+    const action = {
+      type: cartActionTypes.REMOVE_FROM_CART,
+      payload: 1,
+    };
+    
+    const newState = cartReducer(state, action);
+    expect(newState.items).toHaveLength(0);
+    expect(newState.total).toBe(0);
+  });
+
+  it('should handle UPDATE_QUANTITY', () =&gt; {
+    const state = {
+      items: [{ id: 1, name: 'Test Product', price: 10, quantity: 1 }],
+      total: 10,
+    };
+    const action = {
+      type: cartActionTypes.UPDATE_QUANTITY,
+      payload: { productId: 1, quantity: 3 },
+    };
+    
+    const newState = cartReducer(state, action);
+    expect(newState.items[0].quantity).toBe(3);
+    expect(newState.total).toBe(30);
+  });
+
+  it('should handle CLEAR_CART', () =&gt; {
+    const state = {
+      items: [
+        { id: 1, name: 'Product 1', price: 10, quantity: 2 },
+        { id: 2, name: 'Product 2', price: 20, quantity: 1 }
+      ],
+      total: 40,
+    };
+    const action = { type: cartActionTypes.CLEAR_CART };
+    
+    const newState = cartReducer(state, action);
+    expect(newState).toEqual(initialState);
+  });
+
+  it('should remove item when quantity is updated to 0', () =&gt; {
+    const state = {
+      items: [{ id: 1, name: 'Test Product', price: 10, quantity: 1 }],
+      total: 10,
+    };
+    const action = {
+      type: cartActionTypes.UPDATE_QUANTITY,
+      payload: { productId: 1, quantity: 0 },
+    };
+    
+    const newState = cartReducer(state, action);
+    expect(newState.items).toHaveLength(0);
+    expect(newState.total).toBe(0);
+  });
+});
+</code></pre>
+
+<h3 id="project-structure-after-module-2">Project Structure After Module 2</h3>
+
+<pre><code>src/
+├── components/
+│   ├── features/
+│   │   ├── cart/
+│   │   │   ├── CartItem.js
+│   │   │   └── CartSummary.js
+│   │   ├── ProductCard.js
+│   │   └── ProductGrid.js
+│   └── layout/
+│       ├── Header.js
+│       └── Layout.js
+├── pages/
+│   ├── Cart.js
+│   └── Home.js
+├── store/
+│   ├── actions/
+│   │   ├── cartActions.js
+│   │   └── productActions.js
+│   ├── reducers/
+│   │   ├── cartReducer.js
+│   │   ├── cartReducer.test.js
+│   │   ├── productReducer.js
+│   │   ├── productReducer.test.js
+│   │   └── index.js
+│   └── index.js
+├── App.js
+├── index.js
+└── index.css
+</code></pre>
+
+<h3 id="connection-to-other-modules">Connection to Other Modules</h3>
+
+<p><strong>From Module 1:</strong></p>
+<ul>
+  <li>Uses the existing product display structure</li>
+  <li>Builds on the basic Redux setup</li>
+  <li>Extends the mock product data</li>
+</ul>
+
+<p><strong>To Module 3:</strong></p>
+<ul>
+  <li>The synchronous cart actions prepare students for async patterns</li>
+  <li>The reducer structure will be extended for loading/error states</li>
+  <li>The cart functionality will integrate with API calls in Module 3</li>
+</ul>
+
+<h3 id="key-learning-points">Key Learning Points</h3>
+
+<ol>
+  <li><strong>State Shape Design</strong>: The cart state has a flat structure with calculated totals</li>
+  <li><strong>Action Patterns</strong>: Consistent naming and payload structures</li>
+  <li><strong>Reducer Logic</strong>: Pure functions with immutable updates</li>
+  <li><strong>Derived State</strong>: Calculating totals from items rather than storing separately</li>
+  <li><strong>Component Integration</strong>: Using <code>useSelector</code> and <code>useDispatch</code> hooks effectively</li>
+  <li><strong>React Router Integration</strong>: Proper navigation between pages in a Redux app</li>
+</ol>
+
+<h3 id="exercises-for-students">Exercises for Students</h3>
+
+<ol>
+  <li>Add a “favorites” feature using similar Redux patterns</li>
+  <li>Implement cart persistence using localStorage</li>
+  <li>Add input validation for quantity updates</li>
+  <li>Create a mini cart dropdown in the header</li>
+  <li>Add unit tests for cart actions</li>
+  <li>Add animation to cart item count updates</li>
+  <li>Implement stock checking before adding to cart</li>
+</ol>
+
+<p>This module establishes the core Redux CRUD patterns that will be used throughout the rest of the course while introducing practical e-commerce functionality that students can relate to.</p>
+
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-navigation">
+            
+            <a class="prev" href="/2025/05/11/react-redux-part1-setup/">&laquo; React-Redux: #1 Setup</a>
+            
+            
+        </div>
+    </footer>
+</article>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="copyright">© 2025 Blog</p>
+        </div>
+    </footer>
+</div>
+
+<!-- Highlight.js JavaScript - defer loading for performance -->
+<!-- Additional languages - bundled together for fewer HTTP requests -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/kotlin.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/bash.min.js" ></script>
+
+<!-- Mermaid JavaScript - defer loading for performance -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" ></script>
+<script>
+  /**
+   * Main initialization function that runs when the DOM is fully loaded
+   */
+
+  function checkHighlightJsLoaded(callback, maxAttempts = 10, interval = 200) {
+    let attempts = 0;
+
+    const check = () => {
+      if (typeof hljs !== 'undefined') {
+        callback();
+        return;
+      }
+
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(check, interval);
+      } else {
+        console.error('Highlight.js failed to load after multiple attempts');
+      }
+    };
+
+    check();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      checkHighlightJsLoaded(() => {
+        initializeCodeHighlighting();
+        addCopyCodeButtons();
+      })
+    }, 100);
+
+    // Mermaid can be initialized separately
+    initializeMermaid();
+  });
+
+  /**
+   * Initialize and render Mermaid diagrams
+   */
+  function initializeMermaid() {
+    try {
+      // Configure Mermaid
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'loose',
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true
+        }
+      });
+
+      // Convert code blocks to mermaid diagrams
+      document.querySelectorAll('code.language-mermaid').forEach((codeElement) => {
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = codeElement.textContent;
+
+        const preElement = codeElement.parentNode;
+        if (preElement && preElement.tagName === 'PRE') {
+          preElement.parentNode.replaceChild(mermaidDiv, preElement);
+        }
+      });
+
+      // Render all mermaid diagrams
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+    } catch (error) {
+      console.error('Error initializing Mermaid:', error);
+    }
+  }
+
+  /**
+   * Apply syntax highlighting to code blocks
+   */
+  function initializeCodeHighlighting() {
+    try {
+      document.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    } catch (error) {
+      console.error('Error applying syntax highlighting:', error);
+    }
+  }
+
+  /**
+   * Add copy buttons to code blocks
+   */
+  function addCopyCodeButtons() {
+    document.querySelectorAll('pre:not(.mermaid)').forEach((pre) => {
+      // Create button with accessibility attributes
+      const button = document.createElement('button');
+      button.className = 'copy-code-button';
+      button.textContent = 'Copy';
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+
+      // Add button to pre element
+      pre.appendChild(button);
+
+      // Add click event
+      button.addEventListener('click', () => {
+        const code = pre.querySelector('code');
+        if (!code) return;
+
+        const text = code.textContent;
+        copyTextToClipboard(text, button);
+      });
+    });
+  }
+
+  /**
+   * Copy text to clipboard with fallback for older browsers
+   * @param {string} text - The text to copy
+   * @param {HTMLElement} button - The button element for visual feedback
+   */
+  function copyTextToClipboard(text, button) {
+    // Modern browsers - Clipboard API
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text)
+        .then(() => updateButtonText(button, 'Copied!'))
+        .catch(err => {
+          console.error('Failed to copy using Clipboard API:', err);
+          fallbackCopyMethod(text, button);
+        });
+    } else {
+      // Fallback for older browsers
+      fallbackCopyMethod(text, button);
+    }
+  }
+
+  /**
+   * Fallback copy method using document.execCommand
+   * @param {string} text - The text to copy
+   * @param {HTMLElement} button - The button element for visual feedback
+   */
+  function fallbackCopyMethod(text, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+
+    // Make the textarea invisible
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      updateButtonText(button, successful ? 'Copied!' : 'Error!');
+    } catch (err) {
+      console.error('Fallback copy method failed:', err);
+      updateButtonText(button, 'Error!');
+    }
+
+    document.body.removeChild(textArea);
+  }
+
+  /**
+   * Update button text with visual feedback and reset after delay
+   * @param {HTMLElement} button - The button to update
+   * @param {string} text - The text to display
+   * @param {number} delay - Delay in ms before resetting (default: 2000)
+   */
+  function updateButtonText(button, text, delay = 2000) {
+    button.textContent = text;
+    setTimeout(() => {
+      button.textContent = 'Copy';
+    }, delay);
+  }
+</script>
+</body>
+</html>

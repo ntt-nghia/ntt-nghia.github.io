@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>React-Redux: #1 Setup | Blog</title>
+    <meta name="description" content="Module 1: Foundation &amp; Project Setup">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="React-Redux: #1 Setup">
+    <meta property="og:description" content="Module 1: Foundation &amp; Project Setup">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://dodooh.github.io/2025/05/11/react-redux-part1-setup/">
+    
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/assets/css/style.css" as="style">
+
+    <!-- Highlight.js CSS - Combined into one request -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+    <!-- SEO tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>React-Redux: #1 Setup | Blog</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="React-Redux: #1 Setup" />
+<meta name="author" content="Nghia Nguyen Tran Thanh" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Module 1: Foundation &amp; Project Setup" />
+<meta property="og:description" content="Module 1: Foundation &amp; Project Setup" />
+<link rel="canonical" href="https://dodooh.github.io/2025/05/11/react-redux-part1-setup/" />
+<meta property="og:url" content="https://dodooh.github.io/2025/05/11/react-redux-part1-setup/" />
+<meta property="og:site_name" content="Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-05-11T01:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="React-Redux: #1 Setup" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Nghia Nguyen Tran Thanh"},"dateModified":"2025-05-11T01:00:00+00:00","datePublished":"2025-05-11T01:00:00+00:00","description":"Module 1: Foundation &amp; Project Setup","headline":"React-Redux: #1 Setup","mainEntityOfPage":{"@type":"WebPage","@id":"https://dodooh.github.io/2025/05/11/react-redux-part1-setup/"},"url":"https://dodooh.github.io/2025/05/11/react-redux-part1-setup/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<div class="container">
+    <header class="site-header" role="banner">
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="/" class="nav-link" aria-label="Home">@nghiantt</a>
+            <span class="nav-separator" aria-hidden="true">/</span>
+            <a href="/posts/" class="nav-link" aria-label="Posts">posts</a>
+            <span class="nav-separator" aria-hidden="true">/</span>
+            <a href="/tags/" class="nav-link" aria-label="Tags">tags</a>
+        </nav>
+    </header>
+
+    <main class="site-content" role="main" id="main-content">
+        <article class="post">
+    <header class="post-header">
+        <h1 class="post-title">React-Redux: #1 Setup</h1>
+        <div class="post-meta">
+            <time datetime="2025-05-11T01:00:00+00:00">
+                May 11, 2025
+            </time>
+            
+            <span class="post-tags">
+                
+                <a href="/tag/react/" class="tag-pill">react</a>
+                
+                <a href="/tag/redux/" class="tag-pill">redux</a>
+                
+                <a href="/tag/frontend/" class="tag-pill">frontend</a>
+                
+            </span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+        <h1 id="module-1-foundation--project-setup">Module 1: Foundation &amp; Project Setup</h1>
+
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this module, you will:</p>
+<ul>
+  <li>Set up a React Redux project from scratch</li>
+  <li>Implement Redux store, actions, and reducers</li>
+  <li>Create a product listing grid with React components</li>
+  <li>Use React Redux hooks (useSelector, useDispatch)</li>
+  <li>Establish the foundation for the ShopHub e-commerce platform</li>
+</ul>
+
+<h2 id="feature-requirements">Feature Requirements</h2>
+<ul>
+  <li>Initialize ShopHub project with React and Redux</li>
+  <li>Create a responsive product display grid</li>
+  <li>Implement Redux store with products reducer</li>
+  <li>Display mock product data</li>
+  <li>Set up project structure following repository guidelines</li>
+</ul>
+
+<h2 id="implementation-steps">Implementation Steps</h2>
+
+<h3 id="step-1-project-initialization">Step 1: Project Initialization</h3>
+
+<pre><code class="language-bash">npx create-react-app shophub
+cd shophub
+</code></pre>
+
+<p>Create <code>package.json</code>:</p>
+
+<pre><code class="language-json">{
+  "name": "shophub",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.3",
+    "react-router-dom": "^6.16.0",
+    "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.7",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.31",
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      "&gt;0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+</code></pre>
+
+<p>Install dependencies:</p>
+
+<pre><code class="language-bash">npm install
+</code></pre>
+
+<h3 id="step-2-configure-tailwind-css">Step 2: Configure Tailwind CSS</h3>
+
+<p>Create <code>tailwind.config.js</code>:</p>
+
+<pre><code class="language-javascript">module.exports = {
+  content: [
+    "./src/**/*.{js,jsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#f5f3ff',
+          100: '#ede9fe',
+          200: '#ddd6fe',
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+        },
+        secondary: {
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f9a8d4',
+          400: '#f472b6',
+          500: '#ec4899',
+          600: '#db2777',
+          700: '#be185d',
+          800: '#9d174d',
+          900: '#831843',
+        }
+      },
+      fontFamily: {
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
+      },
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: '1rem',
+          sm: '2rem',
+          lg: '4rem',
+          xl: '5rem',
+          '2xl': '6rem',
+        },
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
+}
+</code></pre>
+
+<p>Create <code>postcss.config.js</code>:</p>
+
+<pre><code class="language-javascript">module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+</code></pre>
+
+<p>Update <code>src/index.css</code>:</p>
+
+<pre><code class="language-css">@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+</code></pre>
+
+<h3 id="step-3-create-project-structure">Step 3: Create Project Structure</h3>
+
+<pre><code class="language-bash">mkdir -p src/api
+mkdir -p src/components/common
+mkdir -p src/components/layout
+mkdir -p src/components/features
+mkdir -p src/pages
+mkdir -p src/store/actions
+mkdir -p src/store/reducers
+mkdir -p src/store/selectors
+mkdir -p src/store/middleware
+mkdir -p src/hooks
+mkdir -p src/utils
+mkdir -p src/constants
+mkdir -p src/styles
+</code></pre>
+
+<h3 id="step-4-configure-eslint">Step 4: Configure ESLint</h3>
+
+<p>Create <code>.eslintrc.js</code>:</p>
+
+<pre><code class="language-javascript">module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+    jest: true
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:jsx-a11y/recommended',
+    'prettier'
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
+    },
+    ecmaVersion: 12,
+    sourceType: 'module'
+  },
+  plugins: [
+    'react',
+    'react-hooks',
+    'jsx-a11y'
+  ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
+  rules: {
+    'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/display-name': 'off',
+    'no-unused-vars': ['error', { 
+      'argsIgnorePattern': '^_',
+      'varsIgnorePattern': '^_'
+    }],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'jsx-a11y/anchor-is-valid': 'warn',
+    'no-console': ['warn', { 
+      allow: ['warn', 'error'] 
+    }],
+    'prefer-const': 'error',
+    'no-var': 'error',
+    'arrow-body-style': ['error', 'as-needed'],
+    'object-shorthand': 'error',
+    'prefer-arrow-callback': 'error',
+    'prefer-destructuring': ['error', {
+      'array': true,
+      'object': true
+    }],
+    'template-curly-spacing': ['error', 'never'],
+  }
+};
+</code></pre>
+
+<p>Create <code>.prettierrc</code>:</p>
+
+<pre><code class="language-json">{
+  "semi": true,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "jsxBracketSameLine": false,
+  "arrowParens": "always",
+  "endOfLine": "lf"
+}
+</code></pre>
+
+<h3 id="step-5-create-mock-data-updated">Step 5: Create Mock Data (Updated)</h3>
+
+<p>Create <code>src/api/mockData.js</code>:</p>
+
+<pre><code class="language-javascript">export const mockProducts = [
+  {
+    id: 1,
+    name: 'Wireless Headphones',
+    price: 99.99,
+    image: 'https://placehold.co/300x300',
+    description: 'High-quality wireless headphones with noise cancellation',
+    category: 'Electronics',
+    stock: 50,
+    rating: 4.5,
+  },
+  {
+    id: 2,
+    name: 'Running Shoes',
+    price: 79.99,
+    image: 'https://placehold.co/300x300',
+    description: 'Comfortable running shoes for all terrains',
+    category: 'Sports',
+    stock: 30,
+    rating: 4.2,
+  },
+  {
+    id: 3,
+    name: 'Coffee Maker',
+    price: 149.99,
+    image: 'https://placehold.co/300x300',
+    description: 'Programmable coffee maker with thermal carafe',
+    category: 'Home &amp; Kitchen',
+    stock: 25,
+    rating: 4.7,
+  },
+  {
+    id: 4,
+    name: 'Backpack',
+    price: 49.99,
+    image: 'https://placehold.co/300x300',
+    description: 'Durable laptop backpack with multiple compartments',
+    category: 'Accessories',
+    stock: 40,
+    rating: 4.3,
+  },
+  {
+    id: 5,
+    name: 'Smart Watch',
+    price: 199.99,
+    image: 'https://placehold.co/300x300',
+    description: 'Fitness tracking smart watch with heart rate monitor',
+    category: 'Electronics',
+    stock: 15,
+    rating: 4.6,
+  },
+  {
+    id: 6,
+    name: 'Yoga Mat',
+    price: 29.99,
+    image: 'https://placehold.co/300x300',
+    description: 'Non-slip yoga mat with carrying strap',
+    category: 'Sports',
+    stock: 60,
+    rating: 4.4,
+  },
+];
+</code></pre>
+
+<h3 id="step-6-create-redux-store">Step 6: Create Redux Store</h3>
+
+<p>Create <code>src/store/actions/productActions.js</code>:</p>
+
+<pre><code class="language-javascript">export const productActionTypes = {
+  SET_PRODUCTS: 'SET_PRODUCTS',
+};
+
+export const setProducts = (products) =&gt; ({
+  type: productActionTypes.SET_PRODUCTS,
+  payload: products,
+});
+</code></pre>
+
+<p>Create <code>src/store/reducers/productReducer.js</code>:</p>
+
+<pre><code class="language-javascript">import { productActionTypes } from '../actions/productActions';
+
+const initialState = {
+  items: [],
+};
+
+const productReducer = (state = initialState, action) =&gt; {
+  switch (action.type) {
+    case productActionTypes.SET_PRODUCTS:
+      return {
+        ...state,
+        items: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export default productReducer;
+</code></pre>
+
+<p>Create <code>src/store/reducers/index.js</code>:</p>
+
+<pre><code class="language-javascript">import { combineReducers } from 'redux';
+import productReducer from './productReducer';
+
+const rootReducer = combineReducers({
+  products: productReducer,
+});
+
+export default rootReducer;
+</code></pre>
+
+<p>Create <code>src/store/index.js</code>:</p>
+
+<pre><code class="language-javascript">import { createStore } from 'redux';
+import rootReducer from './reducers';
+
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ &amp;&amp; window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+export default store;
+</code></pre>
+
+<h3 id="step-7-create-layout-components">Step 7: Create Layout Components</h3>
+
+<p>Create <code>src/components/layout/Header.js</code>:</p>
+
+<pre><code class="language-javascript">const Header = () =&gt; (
+  &lt;header className="bg-white shadow-sm"&gt;
+    &lt;div className="container mx-auto px-4 py-4"&gt;
+      &lt;div className="flex items-center justify-between"&gt;
+        &lt;h1 className="text-2xl font-bold text-primary-600"&gt;ShopHub&lt;/h1&gt;
+        &lt;nav&gt;
+          &lt;ul className="flex space-x-6"&gt;
+            &lt;li&gt;
+              &lt;a href="/" className="text-gray-600 hover:text-primary-600"&gt;
+                Home
+              &lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;a href="/products" className="text-gray-600 hover:text-primary-600"&gt;
+                Products
+              &lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;a href="/cart" className="text-gray-600 hover:text-primary-600"&gt;
+                Cart
+              &lt;/a&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/nav&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+);
+
+export default Header;
+</code></pre>
+
+<p>Create <code>src/components/layout/Layout.js</code>:</p>
+
+<pre><code class="language-javascript">import Header from './Header';
+
+const Layout = ({ children }) =&gt; (
+  &lt;div className="min-h-screen bg-gray-50"&gt;
+    &lt;Header /&gt;
+    &lt;main className="container mx-auto px-4 py-8"&gt;
+      {children}
+    &lt;/main&gt;
+  &lt;/div&gt;
+);
+
+export default Layout;
+</code></pre>
+
+<h3 id="step-8-create-product-components">Step 8: Create Product Components</h3>
+
+<p>Create <code>src/components/features/ProductCard.js</code>:</p>
+
+<pre><code class="language-javascript">const ProductCard = ({ product }) =&gt; (
+  &lt;div className="bg-white rounded-lg shadow-md overflow-hidden"&gt;
+    &lt;div className="aspect-w-1 aspect-h-1"&gt;
+      &lt;img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-full object-cover"
+      /&gt;
+    &lt;/div&gt;
+    &lt;div className="p-4"&gt;
+      &lt;h3 className="text-lg font-semibold text-gray-900"&gt;{product.name}&lt;/h3&gt;
+      &lt;p className="text-sm text-gray-500 mt-1"&gt;{product.category}&lt;/p&gt;
+      &lt;p className="text-gray-600 mt-2 line-clamp-2"&gt;{product.description}&lt;/p&gt;
+      &lt;div className="mt-4 flex items-center justify-between"&gt;
+        &lt;span className="text-xl font-bold text-primary-600"&gt;
+          ${product.price}
+        &lt;/span&gt;
+        &lt;button className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 transition-colors"&gt;
+          Add to Cart
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+);
+
+export default ProductCard;
+</code></pre>
+
+<p>Create <code>src/components/features/ProductGrid.js</code>:</p>
+
+<pre><code class="language-javascript">import { useSelector } from 'react-redux';
+import ProductCard from './ProductCard';
+
+const ProductGrid = () =&gt; {
+  const products = useSelector(state =&gt; state.products.items);
+
+  return (
+    &lt;div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"&gt;
+      {products.map(product =&gt; (
+        &lt;ProductCard key={product.id} product={product} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+};
+
+export default ProductGrid;
+</code></pre>
+
+<h3 id="step-9-create-pages">Step 9: Create Pages</h3>
+
+<p>Create <code>src/pages/Home.js</code>:</p>
+
+<pre><code class="language-javascript">import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setProducts } from '../store/actions/productActions';
+import { mockProducts } from '../api/mockData';
+import ProductGrid from '../components/features/ProductGrid';
+
+const Home = () =&gt; {
+  const dispatch = useDispatch();
+
+  useEffect(() =&gt; {
+    dispatch(setProducts(mockProducts));
+  }, [dispatch]);
+
+  return (
+    &lt;div&gt;
+      &lt;h2 className="text-3xl font-bold text-gray-900 mb-8"&gt;Our Products&lt;/h2&gt;
+      &lt;ProductGrid /&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Home;
+</code></pre>
+
+<h3 id="step-10-update-app-component">Step 10: Update App Component</h3>
+
+<p>Update <code>src/App.js</code>:</p>
+
+<pre><code class="language-javascript">import { Provider } from 'react-redux';
+import store from './store';
+import Layout from './components/layout/Layout';
+import Home from './pages/Home';
+
+function App() {
+  return (
+    &lt;Provider store={store}&gt;
+      &lt;Layout&gt;
+        &lt;Home /&gt;
+      &lt;/Layout&gt;
+    &lt;/Provider&gt;
+  );
+}
+
+export default App;
+</code></pre>
+
+<h3 id="step-11-basic-tests">Step 11: Basic Tests</h3>
+
+<p>Create <code>src/store/reducers/productReducer.test.js</code>:</p>
+
+<pre><code class="language-javascript">import productReducer from './productReducer';
+import { productActionTypes } from '../actions/productActions';
+
+describe('productReducer', () =&gt; {
+  it('should return initial state', () =&gt; {
+    const state = productReducer(undefined, {});
+    expect(state).toEqual({ items: [] });
+  });
+
+  it('should handle SET_PRODUCTS', () =&gt; {
+    const mockProducts = [{ id: 1, name: 'Test Product' }];
+    const action = {
+      type: productActionTypes.SET_PRODUCTS,
+      payload: mockProducts,
+    };
+    const state = productReducer(undefined, action);
+    expect(state.items).toEqual(mockProducts);
+  });
+});
+</code></pre>
+
+<p>Create <code>src/components/features/ProductCard.test.js</code>:</p>
+
+<pre><code class="language-javascript">import { render, screen } from '@testing-library/react';
+import ProductCard from './ProductCard';
+
+describe('ProductCard', () =&gt; {
+  const mockProduct = {
+    id: 1,
+    name: 'Test Product',
+    price: 99.99,
+    image: 'test.jpg',
+    description: 'Test description',
+    category: 'Test Category',
+  };
+
+  it('renders product information', () =&gt; {
+    render(&lt;ProductCard product={mockProduct} /&gt;);
+    expect(screen.getByText('Test Product')).toBeInTheDocument();
+    expect(screen.getByText('$99.99')).toBeInTheDocument();
+    expect(screen.getByText('Test Category')).toBeInTheDocument();
+  });
+});
+</code></pre>
+
+<h2 id="running-the-application">Running the Application</h2>
+
+<pre><code class="language-bash">npm start
+</code></pre>
+
+<h2 id="module-1-complete">Module 1 Complete</h2>
+
+<p>You now have:</p>
+<ul>
+  <li>A functional React Redux project structure</li>
+  <li>Redux store with products reducer</li>
+  <li>Product listing with mock data</li>
+  <li>Responsive grid layout using Tailwind CSS</li>
+  <li>Basic testing setup</li>
+</ul>
+
+<h2 id="connection-to-module-2">Connection to Module 2</h2>
+
+<p>In the next module, we’ll add:</p>
+<ul>
+  <li>Shopping cart functionality</li>
+  <li>Redux actions for cart management</li>
+  <li>More complex state interactions</li>
+  <li>Component-level state management</li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<ol>
+  <li>Add a product rating display to the ProductCard component</li>
+  <li>Create a loading state in the products reducer</li>
+  <li>Implement product filtering by category</li>
+  <li>Add a search bar component in the Header</li>
+</ol>
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<ul>
+  <li><a href="https://redux.js.org/">Redux Documentation</a></li>
+  <li><a href="https://react-redux.js.org/api/hooks">React Redux Hooks</a></li>
+  <li><a href="https://tailwindcss.com/docs">Tailwind CSS Documentation</a></li>
+</ul>
+
+    </div>
+
+    <footer class="post-footer">
+        <div class="post-navigation">
+            
+            <a class="prev" href="/2025/05/06/dynamodb-migration-script/">&laquo; DynamoDB Sync Tool: A Comprehensive Guide</a>
+            
+            
+            <a class="next" href="/2025/05/11/react-redux-part2-cart/">React-Redux: #2 Cart &raquo;</a>
+            
+        </div>
+    </footer>
+</article>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="copyright">© 2025 Blog</p>
+        </div>
+    </footer>
+</div>
+
+<!-- Highlight.js JavaScript - defer loading for performance -->
+<!-- Additional languages - bundled together for fewer HTTP requests -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/kotlin.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/bash.min.js" ></script>
+
+<!-- Mermaid JavaScript - defer loading for performance -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" ></script>
+<script>
+  /**
+   * Main initialization function that runs when the DOM is fully loaded
+   */
+
+  function checkHighlightJsLoaded(callback, maxAttempts = 10, interval = 200) {
+    let attempts = 0;
+
+    const check = () => {
+      if (typeof hljs !== 'undefined') {
+        callback();
+        return;
+      }
+
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(check, interval);
+      } else {
+        console.error('Highlight.js failed to load after multiple attempts');
+      }
+    };
+
+    check();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      checkHighlightJsLoaded(() => {
+        initializeCodeHighlighting();
+        addCopyCodeButtons();
+      })
+    }, 100);
+
+    // Mermaid can be initialized separately
+    initializeMermaid();
+  });
+
+  /**
+   * Initialize and render Mermaid diagrams
+   */
+  function initializeMermaid() {
+    try {
+      // Configure Mermaid
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'loose',
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true
+        }
+      });
+
+      // Convert code blocks to mermaid diagrams
+      document.querySelectorAll('code.language-mermaid').forEach((codeElement) => {
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = codeElement.textContent;
+
+        const preElement = codeElement.parentNode;
+        if (preElement && preElement.tagName === 'PRE') {
+          preElement.parentNode.replaceChild(mermaidDiv, preElement);
+        }
+      });
+
+      // Render all mermaid diagrams
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+    } catch (error) {
+      console.error('Error initializing Mermaid:', error);
+    }
+  }
+
+  /**
+   * Apply syntax highlighting to code blocks
+   */
+  function initializeCodeHighlighting() {
+    try {
+      document.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    } catch (error) {
+      console.error('Error applying syntax highlighting:', error);
+    }
+  }
+
+  /**
+   * Add copy buttons to code blocks
+   */
+  function addCopyCodeButtons() {
+    document.querySelectorAll('pre:not(.mermaid)').forEach((pre) => {
+      // Create button with accessibility attributes
+      const button = document.createElement('button');
+      button.className = 'copy-code-button';
+      button.textContent = 'Copy';
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+
+      // Add button to pre element
+      pre.appendChild(button);
+
+      // Add click event
+      button.addEventListener('click', () => {
+        const code = pre.querySelector('code');
+        if (!code) return;
+
+        const text = code.textContent;
+        copyTextToClipboard(text, button);
+      });
+    });
+  }
+
+  /**
+   * Copy text to clipboard with fallback for older browsers
+   * @param {string} text - The text to copy
+   * @param {HTMLElement} button - The button element for visual feedback
+   */
+  function copyTextToClipboard(text, button) {
+    // Modern browsers - Clipboard API
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text)
+        .then(() => updateButtonText(button, 'Copied!'))
+        .catch(err => {
+          console.error('Failed to copy using Clipboard API:', err);
+          fallbackCopyMethod(text, button);
+        });
+    } else {
+      // Fallback for older browsers
+      fallbackCopyMethod(text, button);
+    }
+  }
+
+  /**
+   * Fallback copy method using document.execCommand
+   * @param {string} text - The text to copy
+   * @param {HTMLElement} button - The button element for visual feedback
+   */
+  function fallbackCopyMethod(text, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+
+    // Make the textarea invisible
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      updateButtonText(button, successful ? 'Copied!' : 'Error!');
+    } catch (err) {
+      console.error('Fallback copy method failed:', err);
+      updateButtonText(button, 'Error!');
+    }
+
+    document.body.removeChild(textArea);
+  }
+
+  /**
+   * Update button text with visual feedback and reset after delay
+   * @param {HTMLElement} button - The button to update
+   * @param {string} text - The text to display
+   * @param {number} delay - Delay in ms before resetting (default: 2000)
+   */
+  function updateButtonText(button, text, delay = 2000) {
+    button.textContent = text;
+    setTimeout(() => {
+      button.textContent = 'Copy';
+    }, delay);
+  }
+</script>
+</body>
+</html>
